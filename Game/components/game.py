@@ -1,7 +1,9 @@
 import pygame
 
+from Game.components.enemy.enemy_manager import EnemyManager
 from Game.utils.constants import FPS, BACKGROUND, ICON, TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER
 from Game.components.player.player import Player
+
 class Game():
     def __init__(self):
         pygame.init()
@@ -14,6 +16,7 @@ class Game():
         self.x_position_background = 0
         self.y_position_background = 0     
         self.player = Player()
+        self.enemy_manager = EnemyManager()
 
     def run(self):
         self.playing = True
@@ -30,12 +33,14 @@ class Game():
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        self.enemy_manager.update()
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
+        self.enemy_manager.draw(self.screen)
         pygame.display.flip()   #--> Actualiza la ventana.
 
     def draw_background(self):
